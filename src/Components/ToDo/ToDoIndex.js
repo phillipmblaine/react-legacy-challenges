@@ -8,7 +8,6 @@ import DisplayItems from './DisplayItems';
 export default class ToDoIndex extends Component {
     constructor(props) {
         super(props);
-
         // instead of only array (my original approach, need to rebuild), array of object will allow for more values tied to each item in the list, such as task completed checkbox
         this.state = ({
             list:
@@ -22,15 +21,16 @@ export default class ToDoIndex extends Component {
             // ...this.state.list
             // stores the item to add
             pendingItem: {
-                pendingItemName: 'potato',
-                itemComplete: false
+                // pendingItemName: '',
+                // itemComplete: false
             }
         });
     };
 
     // to-do item handler
     itemNameInputHandler = (e) => {
-        console.log('I will handle item name input.')
+        // console.log('I will handle item name input.')
+        console.log('Executing itemNameInputHandler.')
         this.setState({
             pendingItem: {
                 pendingItemName: e.target.value,
@@ -54,14 +54,28 @@ export default class ToDoIndex extends Component {
     // new to-do item handler
     itemSubmitHandler = (e) => {
         // console.log(this.state.list)
-        console.log('executing itemSubmitHandler')
+        console.log('Executing itemSubmitHandler.')
         e.preventDefault()
         console.log('I will submit data and update the content of the state storing the item list.')
         let a = this.state.list.slice()
         // .slice((this.state.list.length));
         // console.log(a)
         a.push({ itemName: this.state.pendingItem.pendingItemName, itemComplete: false })
-        this.setState({ list: a })
+        this.setState({
+            list: a,
+        })
+
+        // clears the value of the first tag with 'Input'
+        document.getElementsByTagName('Input')[0].value = ''
+
+        // this.setState({
+        //     pendingItem: {
+        //         pendingItemName: '',
+        //         itemComplete: false
+        //     }
+        // })
+        // console.log("this state list:", this.state.list)
+        // console.log("this state pendingItem:", this.state.pendingItem)
         // console.log(this.state.list)
 
         // this.setState({
@@ -87,38 +101,98 @@ export default class ToDoIndex extends Component {
         // })
     }
 
+    componentDidMount() {
+        console.log('Executing componentDidMount.')
+        // this.itemSubmitHandler();
+    }
+
     // to-do mark item complete handler
     itemCompleteHandler = (itemIndex) => {
-        console.log('I will mark the item as complete.')
-        // this.setState
-
-        // // remove item capability    
-        // toDoItemRemoveHandler = (itemIndex) => {
-        // console.log(this.state.list.itemIndex)
-        // console.log(this.state.list.indexOf(itemIndex))
-        // let newStateCopy = this.state.list
-        // .filter(
-        //     this.state.list.indexOf(eItemIndex)
-        // )
-        // console.log(newStateCopy)
-        // let removeItem = this.state.list.indexOf(eItemIndex)
-        // if (removeItem > -1) {
-        //     newState.splice(removeItem, 1)
-
-        // console.log(this.state.list)
-        // const newState = this.state.list.filter(
-        //     item => {
-        //         this.state.list.indexOf(eItemIndex) !== index
-        //     }
-
-        // )
-        // console.log('eItemIndex:', eItemIndex)
-        // console.log('newState:', newState)
         // this.setState({
-        //     list: newState
+        //     list: [itemIndex].itemComplete = ![itemIndex].itemComplete
         // })
-        // };
+        console.log('Executing itemCompleteHandler.')
+        // console.log(this.state.list[itemIndex])
+        // let w = this.state.list.itemComplete
+        // this.setState({
+        //     list: [itemIndex].itemComplete = true
+        // })
+        // console.log(this.state.list[itemIndex].itemComplete)
+        // this.setState({
+        //     list[itemIndex].itemComplete
+        // })
+        // console.log(this.state.list[itemIndex])
+        // console.log(this.state.list.length)
+        let b = this.state.list.slice()
+        // console.log('b', b)
+
+        for (let i = 0; i < this.state.list.length; i++) {
+            // console.log(this.state.list[i])
+            if (b[i] === b[itemIndex]) {
+                // console.log(b[i])
+                b[i].itemComplete = !b[i].itemComplete
+                // console.log(b[i])
+            }
+            this.setState({
+                list: b
+            })
+        }
     }
+
+    itemDeleteHandler = (itemIndex) => {
+        console.log('Executing itemDeleteHandler.')
+        // console.log(`This button should delete this item with the itemIndex ${itemIndex}`)
+        let c = this.state.list.slice()
+        // console.log('c', c)
+        // console.log('itemIndex', itemIndex)
+        c.splice(itemIndex, 1)
+        // console.log('c after splice:', c)
+        this.setState({
+            list: c
+        })
+    }
+
+
+    // console.log(this.state.list)
+
+    // for (let i = 0; i < this.state.list.length; i++) {
+    //     if (itemIndex === this.state.list[itemIndex]) {
+    //         this.setState({
+    //             list: [itemIndex].itemComplete = !([itemIndex].itemComplete)
+    //         })
+    //         //     }
+    //     }
+    // }
+
+    // this.setState
+
+    // // remove item capability    
+    // toDoItemRemoveHandler = (itemIndex) => {
+    // console.log(this.state.list.itemIndex)
+    // console.log(this.state.list.indexOf(itemIndex))
+    // let newStateCopy = this.state.list
+    // .filter(
+    //     this.state.list.indexOf(eItemIndex)
+    // )
+    // console.log(newStateCopy)
+    // let removeItem = this.state.list.indexOf(eItemIndex)
+    // if (removeItem > -1) {
+    //     newState.splice(removeItem, 1)
+
+    // console.log(this.state.list)
+    // const newState = this.state.list.filter(
+    //     item => {
+    //         this.state.list.indexOf(eItemIndex) !== index
+    //     }
+
+    // )
+    // console.log('eItemIndex:', eItemIndex)
+    // console.log('newState:', newState)
+    // this.setState({
+    //     list: newState
+    // })
+    // };
+
 
     render() {
         return (
@@ -131,7 +205,10 @@ export default class ToDoIndex extends Component {
                     value={this.state.pendingItem.pendingItemName}
                 />
                 <br />
-                <DisplayItems list={this.state.list} itemCompleteHandler={this.itemCompleteHandler} />
+                <DisplayItems
+                    list={this.state.list}
+                    itemCompleteHandler={this.itemCompleteHandler}
+                    itemDeleteHandler={this.itemDeleteHandler} />
 
                 {/* <Form>
                     <FormGroup>

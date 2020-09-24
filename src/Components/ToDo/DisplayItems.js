@@ -1,31 +1,33 @@
 import React from 'react'
-import { ListGroup, ListGroupItem, ListGroupItemHeading, FormGroup, Input, Label } from 'reactstrap'
+import { ListGroup, ListGroupItem, ListGroupItemHeading, FormGroup, Input, Label, Button } from 'reactstrap'
 
 const DisplayItems = (props) => {
     console.log('DisplayItems props:', props)
-    console.log('DisplayItems props list:', props.list)
-    return props.list.map((value, index) => {
+    // console.log('DisplayItems props list:', props.list)
+    return props.list.map((value, itemIndex) => {
         return (
-            <div key={index}>
+            <div key={itemIndex}>
                 <ListGroup>
-                    <ListGroupItem>
+                    <ListGroupItem color="info">
                         <ListGroupItemHeading>
-                            itemName: {props.list[index].itemName}
+                            itemName: {props.list[itemIndex].itemName}
                         </ListGroupItemHeading>
                         <ListGroupItemHeading>
-                            itemComplete: {props.list[index].itemComplete.toString()}
-                            {console.log(props.list[index])}
+                            itemComplete: {props.list[itemIndex].itemComplete.toString()}
+                            {/* {console.log(props.list[itemIndex])} */}
                         </ListGroupItemHeading>
                     </ListGroupItem>
-                    <ListGroupItem>
+                    <ListGroupItem color="success">
                         <FormGroup check>
                             <Label check>
                                 {/* // needs a function that changes state of the itemComplete boolean when checkbox is clicked */}
-                                <Input type="checkbox" onClick={() => props.itemCompleteHandler(props.list[index])}
+                                <Input type="checkbox" onClick={() => props.itemCompleteHandler(itemIndex)}
                                 />{' '}
-                                Check me once complete!
+                                Check me once complete! (Or, uncheck if changing back to incomplete)
                             </Label>
                         </FormGroup>
+                        <br />
+                        <Button color="danger" onClick={() => props.itemDeleteHandler(itemIndex)}>Delete</Button>
                     </ListGroupItem>
                 </ListGroup>
                 <br />

@@ -12,17 +12,19 @@ export default class DogIndex extends Component {
         this.state = {
             // dogFetchURL: 'https://random.dog/woof.json'
             dogFetchURL: 'https://dog.ceo/api/breeds/image/random',
-            fetchButtonPresses: 0,
+            // fetchButtonPresses: 0,
             dogFetchDisplayURL: ''
         }
     }
 
-    componentDidMount() {
-
+    componentWillMount() {
+        console.log('Executing componentWillMount.') // called before mount I believe?        
     }
 
-    componentWillMount() {
-        console.log('Executing componentWillMount.') // called before mount I believe?
+    componentDidMount() {
+        console.log('Executing componentDidMount.')
+        // this.setState({
+        // })
     }
 
     // use a componentDidMount to ensure the fetch can complete before displaying, it also has a doggie pic ready to go, so can display a doggie pic if the conditional for displaying is changed
@@ -41,10 +43,11 @@ export default class DogIndex extends Component {
     }
 
     dogFetchDisplayURLPicture() {
-        this.setState({
-            fetchButtonPresses: this.state.fetchButtonPresses + 1
-        })
-        console.log('fetchButtonPresses value:', this.state.fetchButtonPresses)
+        // this.setState({
+        //     fetchButtonPresses: this.state.fetchButtonPresses + 1
+        // })
+        // console.log('fetchButtonPresses value:')
+        // console.log('fetchButtonPresses value:', this.state.fetchButtonPresses)
         fetch(this.state.dogFetchURL)
             .then(response => response.json())
             .then(json => this.setState({
@@ -68,8 +71,9 @@ export default class DogIndex extends Component {
                 <h3>Hello from DogIndex</h3>
                 <Button onClick={() => this.dogFetchDisplayURLPicture()}>Fetch Doggie Pics</Button>
 
+                {/* this.state.fetchButtonPresses === 0 && */}
                 {
-                    this.state.fetchButtonPresses === 0 && this.state.dogFetchDisplayURL === ''
+                    this.state.dogFetchDisplayURL === ''
                         ? (
                             < div >
                                 <h6>Click the button for cute doggie pics!</h6>
@@ -85,7 +89,6 @@ export default class DogIndex extends Component {
                                 {/* {console.log(this.state.dogFetchDisplayURL)} */}
                             </div>
                         )
-
                 }
             </div>
         )

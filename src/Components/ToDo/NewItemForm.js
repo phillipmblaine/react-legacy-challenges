@@ -14,9 +14,10 @@ const NewItemForm = (props) => {
                     onChange={props.itemNameInputHandler}
                     // value={props.pendingItemName}
                     placeholder='Add a New Item'
+                    required
                 />
             </FormGroup>
-            <Button type="submit" name="submit" value="submit">Add New Item +</Button>
+            <Button type="submit" color="primary" name="submit" value="submit">Add New Item +</Button>
         </Form>
     )
 }
